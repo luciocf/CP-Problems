@@ -1,2 +1,2 @@
-# Problems2
+# Problems
 Solutions to Competitive Programming Problems
