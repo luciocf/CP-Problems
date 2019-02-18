@@ -26,23 +26,6 @@ int suf[maxn];
  
 int get(Node *t) {return (t ? t->v : 0);}
  
-void clear(Node *node, int l, int r)
-{
-	if (!node) return;
- 
-	if (l == r)
-	{
-		node->v = 0;
-		return;
-	}
- 
-	int mid = (l+r)>>1;
- 
-	clear(node->l, l, mid); clear(node->r, mid+1, r);
- 
-	node->v = 0;
-}
- 
 void upd(Node *node, int l, int r, int pos, int v)
 {
 	if (l == r)
