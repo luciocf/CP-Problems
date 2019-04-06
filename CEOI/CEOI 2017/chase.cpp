@@ -13,8 +13,10 @@ typedef long long ll;
 int n, c;
 int num[maxn];
 
-ll soma[maxn], ans;
-ll d[2][maxn][maxv], ant[2][maxn][maxv], ant2[maxv];
+ll soma[maxn];
+ll d[2][maxn][maxv], ans;
+
+ll ant[maxn][maxv];
 
 vector<int> grafo[maxn];
 
@@ -46,17 +48,17 @@ void rotate(int u, int p)
 		if (v == p) continue;
 
 		for (int i = 1; i <= c; i++)
-			ant2[i] = d[0][v][i]; 
+		{
+			ant[u][i] = d[0][u][i];
+
+			ll D = max(d[0][v][i], d[0][v][i-1]+soma[v]-(ll)num[u]);
+
+			if (d[0][u][i] == D) d[0][u][i] = d[1][u][i];
+		}
 
 		for (int i = 1; i <= c; i++)
 		{
-			ant[0][u][i] = d[0][u][i], ant[1][u][i] = d[1][u][i];
-
-			ll D = max(d[0][v][i], ant2[i-1]+soma[v]-(ll)num[u]);
-
-			if (d[0][u][i] == D) d[0][u][i] = d[1][u][i];
-
-			D = max(d[0][u][i], d[0][u][i-1]+soma[u]-(ll)num[v]);
+			ll D = max(d[0][u][i], d[0][u][i-1]+soma[u]-(ll)num[v]);
 
 			if (D > d[0][v][i]) d[1][v][i] = d[0][v][i], d[0][v][i] = D;
 			else if (D > d[1][v][i]) d[1][v][i] = D;
@@ -65,7 +67,7 @@ void rotate(int u, int p)
 		rotate(v, u);
 
 		for (int i = 1; i <= c; i++)
-			d[0][u][i] = ant[0][u][i], d[1][u][i] = ant[1][u][i];
+			d[0][u][i] = ant[u][i];
 	}
 }
 
