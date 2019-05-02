@@ -9,7 +9,7 @@
 // 2. To calculate, assume u's subtrees are u_1, u_2, ..., u_t. We can use another DP aux[][] with two states,
 // (l, S), which calculates the minimum cost using S (1 <= S <= k) sawmills on subtrees u_1, ..., u_l. It's simple to calculate it in 
 // O(k^2) - if we use a sawmill on the root of u_l, then aux[l][S] = aux[l-1][S-j] + dp[u_l][u_l][j-1] (0 <= j <= S). Otherwise, 
-// we have that aux[l][S] = aux[l-1][S-j] + dp[u_l][anc][j].
+// we have that aux[l][S] = aux[l-1][S-j] + dp[u_l][anc][j]. Also, in the end, dp[u][anc][S] = aux[deg(v)][S] + dist(u, anc).
 
 // 3. The overall complexity will be O(n^2 * k^2). That's true because for each state on subtree u with ancestor anc, 
 // we calculate a dp with K states and K transitions deg(u) times. Hence, the complexity. Notice the third state 'x' in the main DP
