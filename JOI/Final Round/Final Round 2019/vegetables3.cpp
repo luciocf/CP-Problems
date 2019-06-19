@@ -4,13 +4,14 @@
 // 1. Let's use a DP with the following states to construct any valid string with the least possible cost: 
 // DP[last used color][amount of Rs used][amount of Gs used][amount of Ys used].
 
-// 2. Notice that if we currently used a certain color K times, then it's always optimal to use the first K positions that such a color appears.
+// 2. Notice that if we currently used a certain color K times, then it's always optimal to use the first K positions
+// in the original string that such a color appears.
 
-// 3. Suppose the previous color used was A, the new color we want to use is B and the other color is C. Let the original position in the string
-// of A, B and C be posA, posB and posC respectively. Then, the number of swaps needed to insert B in the current position is equal to the amount
-// of colors A in the range (posA, posB) plus the amount of colors C in the range (posC, posB). We can keep track of the position in the string for the 
-// i-th occurence of a certain color by using an array. After that, it's simple to find these values using a prefix sum on the amount of 
-// appearances of a certain color until a position 'i'.
+// 3. Suppose the previous color used was A, the new color we want to use is B and the other color is C. Let the original 
+// position in the string of A, B and C be posA, posB and posC respectively. Then, the number of swaps needed to insert
+// B in the current position is equal to the amount of colors A in the range (posA, posB) plus the amount of colors C
+// in the range (posC, posB). We can keep track of the position in the string for the i-th occurence of a certain color
+// by using an array. After that, it's simple to find these values using a prefix sum on the amount of occurences of each color.
 
 // Overall complexity is O(n^3).
 
