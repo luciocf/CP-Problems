@@ -4,7 +4,7 @@
 // 1. Let's use a DP with the following states to construct any valid string with the least possible cost: 
 // DP[last used color][amount of Rs used][amount of Gs used][amount of Ys used].
 
-// 2. Notice that if we currently a certain color K times, then it's always optimal for them to be the first K positions that such a color appears.
+// 2. Notice that if we currently used a certain color K times, then it's always optimal to use the first K positions that such a color appears.
 
 // 3. Suppose the previous color used was A, the new color we want to use is B and the other color is C. Let the original position in the string
 // of A, B and C be posA, posB and posC respectively. Then, the number of swaps needed to insert B in the current position is equal to the amount
