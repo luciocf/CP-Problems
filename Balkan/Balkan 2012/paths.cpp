@@ -1,7 +1,22 @@
 // Balkan OI 2012 - Shortest Paths
 // Lúcio Cardoso
 
-// Solution: TODO
+// Solution:
+
+// 1. Take the SP Tree (call it T) from the graph with A as root, and make sure the
+// given path is present in the tree.
+
+// 2. Suppose we've taken the edge (U, V) from the given path and removed it from T. It's
+// not hard to prove that the shortest distance (not necessarily using only edges from T) 
+// from B to any vertex K on the subtree of V can be achieved without crossing the edge (U, V).
+
+// 3. Now, notice that when removing the edge (U, V) from T, the shortest path from A to B
+// can be decomposed in the following way: dist(A, K1) + dist(K1, K2) + dist(K2, B), where K1
+// is not in the subtree of V and K2 is necessarily in the subtree of V. We can find the minimum
+// value for the above expression using multisets, and keep track of which vertices are allowed
+// for being K1 and K2 using a dfs for each edge that is removed.
+
+// Overall complexity is O(n^2 * log n).
 
 #include <bits/stdc++.h>
 
