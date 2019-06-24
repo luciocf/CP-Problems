@@ -1,3 +1,3 @@
-# CompetitiveProgramming
+# OI-Problems
 
-My solutions to competitive programming problems.
+My solutions to problems from Olympiads in Informatics.
