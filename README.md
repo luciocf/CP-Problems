@@ -1,2 +1,3 @@
 # Problems
-Solutions to problems from Olympiads in Informatics (OIs)
+
+My solutions to competitive programming problems.
