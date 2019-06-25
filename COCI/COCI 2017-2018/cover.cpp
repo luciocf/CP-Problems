@@ -23,12 +23,6 @@ ll dp[maxn];
 
 pii pt[maxn];
 
-bool comp(pii a, pii b)
-{
-	if (a.ff != b.ff) return a.ff < b.ff;
-	return a.ss < b.ss;
-}
-
 int main(void)
 {
 	scanf("%d", &n);
@@ -41,7 +35,7 @@ int main(void)
 		pt[i].ss = abs(pt[i].ss);
 	}
 
-	sort(pt+1, pt+n+1, comp);
+	sort(pt+1, pt+n+1);
 
 	for (int i = 1; i <= n; i++)
 	{
