@@ -26,6 +26,8 @@
 // than (A-P) x (C-P). If so, P resides in triangle (A, B, C).
 // Otherwise, if the sign of those cross products are equal, search in the left/right if the sign
 // is negative/positive, respectively.
+// NOTE: We need to handle an edge case where a factory is in a segment of a triangle. Check the code
+// for details.
 
 // Thus, we can find the sum in each triangle in O(nm * log n), calculate S[l][r] in O(n^2) and
 // brute force all possible triangles to find the answer in O(n^3). Final complexity is then
@@ -71,7 +73,8 @@ int test(int A, int B, int C, pii P)
 	pa.ff -= P.ff, pa.ss -= P.ss;
 	pb.ff -= P.ff, pb.ss -= P.ss;
 	pc.ff -= P.ff, pc.ss -= P.ss;
-
+	
+	// if a factory is in this segment, consider it inside the triangle in the left
 	if (!cross(pa, pc)) return -1;
 
 	if (sign(cross(pa, pb)) != sign(cross(pa, pc))) return 2;
