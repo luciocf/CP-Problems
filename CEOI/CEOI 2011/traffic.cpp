@@ -21,7 +21,7 @@
 // 4. We can find the unreachable west vertices similarly, but traversing the transposed DAG
 // in topological order.
 
-// Complexity: O(n + m)
+// Complexity: O(n log n)
 
 #include <bits/stdc++.h>
 
