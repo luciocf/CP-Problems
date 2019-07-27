@@ -1,6 +1,28 @@
 // POI 2010 - Sheep
 // Lúcio Cardoso
 
+// Solution:
+
+// Some definitions:
+
+// * Ans[L][R] is the total amount of triangularizations for the polygon formed by
+// segments (L, L+1), (L+1, L+2), ..., (R-1, R), (R, L) (where L <= R <= n).
+
+// * S[L][R] is the amount of points inside the polygon formed by segments
+// (L, L+1), (L+1, L+2), ..., (R-1, R), (R, L) (where L <= R <= n).
+
+// 1. Notice that ans[L][R] = sum(ans[L][P]*ans[P][R]) for all P such that L < P < R, if
+// the triangle (L, P, R) has an even amount of points in it. Thus, as long as we can
+// calculate the amount of points contained in a triangle, we can find values for ans[][] in O(n^3).
+
+// 3. The amount of points inside a triangle (A, B, C) is equal to K - S[A][B] - S[B][C] - S[C][A].
+// Therefore, all that's left is calculating S[L][R]. To do that, we can use the same method described
+// here: https://github.com/luciocf/OI-Problems/blob/master/POI/POI%202006/invasion.cpp
+
+// 4. Unfortunately, a complexity of O(nk * log n + n^3) does not pass (at least for my implementation).
+// To improve that, notice that for a fixed point i (1 <= i <= k), the value B such that i is inside triangle (A, B, B+1)
+// can only increase (ignoring mod n) as A increases. Thus, we can improve our solution to O(nk + n^3).
+
 #include <bits/stdc++.h>
 
 #define ff first
