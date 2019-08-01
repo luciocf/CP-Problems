@@ -1,6 +1,18 @@
 // CEOI 2018 - Cloud Computing
 // Lúcio Cardoso
 
+// Solution:
+
+// Sort the orders and the computers by their F value. Notice that, if we choose and order j
+// and a computer i to be used in such order, any other order with index >= j will use only
+// computers of index >= i. Hence, we can use a dp[N][M][C] whose states are the current index of
+// a computer (which we can choose to use or not), current index of an order and total amount of
+// cores avaliable.
+
+// To reduce the amount of memory used, use the "memory trick" (i.e using dp[2][M][C]).
+
+// Complexity: O(n*m*maxC).
+
 #include <bits/stdc++.h>
 
 using namespace std;
