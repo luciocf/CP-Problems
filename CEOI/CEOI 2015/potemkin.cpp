@@ -1,6 +1,19 @@
 // CEOI 2015 - Potemkin Cycle
 // Lúcio Cardoso
 
+// Solution:
+
+// 1. For each edge (u, v) in the graph, create two nodes in a new graph: One node representes
+// the edge u->v and the other one, v->u. Now, for each triple (u, v, w) of vertices in the original graph such that
+// u is connected to v, and v is connected to w, connect vertices (u->v) with (v->w) iff u is not connected with w.
+// This way, a cycle in the new graph is a cycle in the original graph and there are no 3-size cycles.
+
+// 2. Thus, if there is a cycle in the new graph, there is an answer. To find such an answer, run a dfs in the new graph
+// and print the cycle formed by the first back edge found. This way, we can assure that the conditions of the statement
+// are satisfied.
+
+// Complexity: O(nm)
+
 #include <bits/stdc++.h>
 
 using namespace std;
