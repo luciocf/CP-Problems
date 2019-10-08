@@ -4,7 +4,7 @@
 // The condition for an interval [l, r] to be framed is the following:
 //	- A[l] is smallest number in [l, r]
 //	- A[r] is the largest number in [l, r]
-//	- A[r]-A[l] = r-l -> A[r]-r = A[l]-l
+//	- A[r]-A[l] = r-l  -> A[r]-r = A[l]-l
 
 // Iterate through every array index L in reverse order. We will assume L is the left endpoint
 // of an empodio. Use a set called mx maintaining all indices k such that A[k] is the maximum in [L, k].
