@@ -1,6 +1,27 @@
 // IOI 2004 - Empodia
 // Lúcio Cardoso
 
+// The condition for an interval [l, r] to be framed is the following:
+//	- A[l] is smallest number in [l, r]
+//	- A[r] is the largest number in [l, r]
+//	- A[r]-A[l] = r-l -> A[r]-r = A[l]-l
+
+// Iterate through every array index L in reverse order. We will assume L is the left endpoint
+// of an empodio. Use a set called mx maintaining all indices k such that A[k] is the maximum in [L, k].
+// When we consider the index L, we need to remove every element from mx that is smaller than A[L]
+// (we can do it in O(n) in total).
+
+// Now, maintain an array of sets st[] such that st[i] contains every element in mx with index k such
+// that A[k]-k = i. Update these sets when removing the elements from mx.
+
+// Notice only the smallest index in the st[A[L]-L] (say, R) can be a valid endpoint for an empodio starting at L
+// (otherwise the empodio [L, R] would be inside another empodio). Thus, all we now need to do is to check
+// if there is another framed interval [X, Y] inside [L, R]. To check that, use a BIT that marks
+// the right endpoint of each framed interval with the value 1. If sum(R) >= 1, there is a framed interval
+// inside [L, R].
+
+// Complexity: O(N log N) 
+
 #include <bits/stdc++.h>
 
 #define ff first
