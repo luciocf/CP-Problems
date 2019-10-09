@@ -3,6 +3,8 @@
 
 // Solution: https://ioinformatics.org/page/ioi-2010/36
 
+// --------------- Code for encoder.cpp ---------------
+
 #include <bits/stdc++.h>
 #include "grader.h"
 #include "encoder.h"
@@ -82,4 +84,71 @@ void encode(int n, int h, int e, int *v1, int *v2)
 			}
 		}
 	}
+}
+
+// --------------- Code for decoder.cpp ---------------
+
+#include <bits/stdc++.h>
+#include "grader.h"
+#include "decoder.h"
+
+using namespace std;
+
+const int maxn = 1e3+10;
+
+static int a[maxn];
+static int delta[maxn], ans[maxn];
+
+vector<int> grafo[maxn];
+
+void dfs(int u, int p)
+{
+	for (auto v: grafo[u])
+	{
+		if (v != p)
+		{
+			ans[v] = ans[u] + delta[v];
+			dfs(v, u);
+		}
+	}
+}
+
+void decode(int n, int h)
+{
+ 	for (int i = 0; i < n; i++)
+ 	{
+ 		int p = 0;
+ 		for (int j = 0; j < 10; j++)
+ 			p += decode_bit()*(1<<j);
+
+ 		grafo[i].push_back(p);
+ 		grafo[p].push_back(i);
+ 	}
+
+ 	for (int j = 0; j < h; j++)
+ 	{
+ 		for (int i = 1; i < n; i += 5)
+ 		{
+ 			int tri = 0;
+
+ 			for (int k = 0; k < 8; k++)
+ 				tri += decode_bit()*(1<<k);
+
+ 			for (int k = 4; k >= 0; k--)
+ 			{
+ 				int u = i+k, dlt;
+
+ 				if (tri >= 2*pow(3, k)) dlt = 1, tri -= 2*pow(3, k);
+ 				else if (tri >= pow(3, k)) dlt = 0, tri -= pow(3, k);
+ 				else dlt = -1;
+
+ 				delta[u] = dlt;
+ 			}
+ 		}
+
+ 		dfs(0, -1);
+
+ 		for (int i = 0; i < n; i++)
+ 			hops(j, i, ans[i]-ans[j]);
+ 	}
 }
