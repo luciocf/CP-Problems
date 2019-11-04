@@ -5,33 +5,41 @@
 
 using namespace std;
 
-const int maxn = 3e6+10;
-
 typedef long long ll;
 
+const int maxn = 1e6+10;
+
 int n;
-ll a[maxn], b[maxn], soma[maxn], k;
+ll k;
+int Ax, Bx, Cx, Mx;
+int Ay, By, Cy, My;
+int a[maxn], b[maxn];
 
-bool ok(int x)
+ll qtd(int v)
 {
-	ll aux = 0LL;
-	for (int i = 1; i <= n; i++)                   
-		if (a[i] <= x) aux += soma[x-a[i]];
+	int ptr = n;
+	ll tot = 0;
 
-	return (aux >= k);
+	for (int i = 1; i <= n; i++)
+	{
+		while (ptr > 1 && a[i]+b[ptr] >= v) ptr--;
+
+		if (a[i]+b[ptr] < v) tot += 1ll*ptr;
+	}
+
+	return tot;
 }
 
-ll busca(void)
+int busca(void)
 {
-	int ini = 1, fim = 2e6+10;
-	ll ans;
+	int ini = 0, fim = 1e9+10, ans = 0;
 
 	while (ini <= fim)
 	{
-		int mid = (ini+fim)/2;
+		int mid = (ini+fim)>>1;
 
-		if (ok(mid)) ans = mid, fim = mid-1;
-		else ini = mid+1;
+		if (qtd(mid) <= k-1) ans = mid, ini = mid+1;
+		else fim = mid-1;
 	}
 
 	return ans;
@@ -39,29 +47,17 @@ ll busca(void)
 
 int main(void)
 {
-	ios::sync_with_stdio(false); cin.tie(0);
+	scanf("%d %lld %d %d %d %d %d %d %d %d", &n, &k, &Ax, &Bx, &Cx, &Mx, &Ay, &By, &Cy, &My);
 
-	ll ax, bx, cx, mx;
-
-	cin >> n >> k;
-	cin >> ax >> bx >> cx >> mx;
-
-	a[1] = ax;
+	a[1] = Ax;
 	for (int i = 2; i <= n; i++)
-		a[i] = (bx + (cx*a[i-1])%mx)%mx;
+		a[i] = (Bx + Cx*a[i-1])%Mx;
 
-	ll ay, by, cy, my;
-	cin >> ay >> by >> cy >> my;
-
-	b[1] = ay, soma[ay]++;
+	b[1] = Ay;
 	for (int i = 2; i <= n; i++)
-	{
-		b[i] = (by + (cy*b[i-1])%my)%my;
-		soma[b[i]]++;
-	}
+		b[i] = (By + Cy*b[i-1])%My;
 
-	for (int i = 1; i < maxn; i++)
-		soma[i] += soma[i-1];
+	sort(a+1, a+n+1); sort(b+1, b+n+1);
 
-	cout << busca() << "\n";
+	printf("%d\n", busca());
 }
