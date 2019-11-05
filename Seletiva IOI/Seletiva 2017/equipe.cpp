@@ -6,57 +6,61 @@
 using namespace std;
 
 const int maxn = 210;
-
 const int inf = 1e9+10;
 
-int mask[2][maxn], dp[2][(1<<10)+10][(1<<10)+10];
+int in[maxn], out[maxn];
+
+int dp[2][(1<<11)][(1<<11)];
+
+vector<int> tema[maxn];
 
 int main(void)
 {
-	ios::sync_with_stdio(false); cin.tie(0);
-
 	int n, k;
-	cin >> n >> k;
+	scanf("%d %d", &n, &k);
 
 	for (int i = 1; i <= n; i++)
 	{
 		int m;
-		cin >> m;
-
-		mask[0][i] = (1<<k)-1;
+		scanf("%d", &m);
 
 		for (int j = 1; j <= m; j++)
 		{
-			int x;
-			cin >> x;
-			x--;
+			int t;
+			scanf("%d", &t);
 
-			mask[1][i] |= (1<<x);
-			mask[0][i] ^= (1<<x);
+			in[i] |= (1<<(t-1));
 		}
+
+		for (int j = 0; j < k; j++)
+			if (!(in[i]&(1<<j)))
+				out[i] |= (1<<j);
 	}
 
-	for (int mask1 = 0; mask1 < 1<<k; mask1++)
-		for (int mask2 = 0; mask2 < 1<<k; mask2++)
+	for (int mask1 = 0; mask1 < (1<<k); mask1++)
+		for (int mask2 = 0; mask2 < (1<<k); mask2++)
 			dp[0][mask1][mask2] = dp[1][mask1][mask2] = inf;
 
-	dp[0][0][0] = 0;
+	dp[0][0][0] = dp[1][0][0] = 0;
 
 	for (int i = 1; i <= n; i++)
 	{
-		for (int mask1 = 0; mask1 < 1<<k; mask1++)
-		{
-			for (int mask2 = 0; mask2 < 1<<k; mask2++)
-			{
-				int a = i%2, b = (i-1)%2;
-				int new1 = mask1|mask[1][i];
-				int new0 = mask2|mask[0][i];
+		int at = i%2, ant = (i-1)%2;
 
-				dp[a][new1][new0] = min({dp[a][mask1][mask2]+1, dp[a][new1][new0], dp[b][mask1][mask2]+1, dp[b][new1][new0]});
+		for (int mask1 = 0; mask1 < (1<<k); mask1++)
+		{
+			for (int mask2 = 0; mask2 < (1<<k); mask2++)
+			{
+				dp[at][mask1][mask2] = min(dp[at][mask1][mask2], dp[ant][mask1][mask2]);
+
+				int m1 = mask1|in[i], m2 = mask2|out[i];
+
+				dp[at][m1][m2] = min({dp[at][m1][m2], dp[ant][m1][m2], dp[ant][mask1][mask2]+1});
 			}
 		}
+
 	}
 
-	int ans = dp[n%2][(1<<k)-1][(1<<k)-1];
-	cout << (ans==inf?-1:ans) << "\n";
+	if (dp[n%2][(1<<k)-1][(1<<k)-1] == inf) printf("-1\n");
+	else printf("%d\n", dp[n%2][(1<<k)-1][(1<<k)-1]);
 }
