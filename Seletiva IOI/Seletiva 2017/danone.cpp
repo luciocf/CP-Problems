@@ -5,22 +5,30 @@
 
 using namespace std;
 
-const int maxn = 2e6+10;
-
 typedef pair<int, int> pii;
+
+const int maxn = 2e6+10;
 
 struct Q
 {
-	int op, l, r;
-} query[maxn];
+	char op;
+	int l, r;
+} q[maxn];
 
-int num[maxn];
+int n, m;
+int a[maxn];
 
-int pai[maxn], sz[maxn];
+int pai[maxn], peso[maxn];
 
 bool mark[maxn];
 
 vector<pii> grafo[maxn];
+
+void init(void)
+{
+	for (int i = 1; i <= n; i++)
+		pai[i] = i, peso[i] = 1;
+}
 
 int Find(int x)
 {
@@ -33,15 +41,9 @@ void Join(int x, int y)
 	x = Find(x), y = Find(y);
 	if (x == y) return;
 
-	if (sz[x] < sz[y]) swap(x, y);
+	if (peso[x] < peso[y]) swap(x, y);
 
-	pai[y] = x, sz[x] += sz[y];
-}
-
-void init(int n)
-{
-	for (int i = 1; i <= n; i++)
-		pai[i] = i, sz[i] = 1;
+	pai[y] = x, peso[x] += peso[y];
 }
 
 void dfs(int u)
@@ -50,11 +52,12 @@ void dfs(int u)
 
 	for (auto pp: grafo[u])
 	{
-		int v = pp.first, x = pp.second;
+		int v = pp.first, w = pp.second;
+
 		if (mark[v]) continue;
 
-		if (v < u) num[v] = num[u]-x;
-		else num[v] = num[u]+x;
+		if (v > u) a[v] = a[u]+w;
+		else a[v] = a[u]-w;
 
 		dfs(v);
 	}
@@ -62,48 +65,45 @@ void dfs(int u)
 
 int main(void)
 {
-	int n, q;
-	cin >> n >> q;
+	scanf("%d %d", &n, &m);
 
-	init(n);
-
-	for (int i = 1; i <= q; i++)
+	for (int i = 1; i <= m; i++)
 	{
 		char op;
-		cin >> op;
+		scanf(" %c", &op);
 
-		if (op == 'C')
+		if (op == 'L')
 		{
-			int l, r;
-			cin >> l >> r;
+			int l, r, v;
+			scanf("%d %d %d", &l, &r, &v);
 
-			query[i] = {0, l, r};
+			grafo[r].push_back({l-1, v});
+			grafo[l-1].push_back({r, v});
+
+			q[i] = {op, l-1, r};
 		}
 		else
 		{
-			int l, r, x;
-			cin >> l >> r >> x;
+			int l, r;
+			scanf("%d %d", &l, &r);
 
-			grafo[l-1].push_back({r, x});
-			grafo[r].push_back({l-1, x});
-
-			query[i] = {1, l, r};
+			q[i] = {op, l-1, r};
 		}
 	}
 
-	for (int i = 0; i <= n; i++)
+	init();
+
+	for (int i = 1; i <= n; i++)
 		if (!mark[i])
 			dfs(i);
 
-	for (int i = 1; i <= q; i++)
+	for (int i = 1; i <= m; i++)
 	{
-		int l = query[i].l, r = query[i].r;
-
-		if (query[i].op) Join(l-1, r);
+		if (q[i].op == 'L') Join(q[i].l, q[i].r);
 		else
 		{
-			if (Find(l-1) != Find(r)) cout << "Esquecido\n";
-			else cout << num[r]-num[l-1] << "\n";
+			if (Find(q[i].l) != Find(q[i].r)) printf("Esquecido\n");
+			else printf("%d\n", a[q[i].r]-a[q[i].l]);
 		}
 	}
 }
