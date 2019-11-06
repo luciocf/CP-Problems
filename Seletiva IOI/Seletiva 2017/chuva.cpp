@@ -5,76 +5,79 @@
 
 using namespace std;
 
-const int maxn = 1e3+10;
+typedef pair<int, int> pii;
 
-const int maxk = 253;
+const int maxn = 1e3+5;
+const int maxk = 252;
 
-int num[maxn][maxn], tipo[maxn][maxn], n, m;
+int n, m, k;
+int h[maxn][maxn];
 
 bool mark[maxn][maxn];
 
-bitset<maxk> tree[4*maxn][4*maxn], B[maxn][maxn];
+bitset<maxk> tree[3*maxn][3*maxn], bs[maxn][maxn];
 
 int linha[] = {-1, 1, 0, 0};
 int coluna[] = {0, 0, -1, 1};
 
-void build_y(int nodex, int lx, int rx, int nodey, int ly, int ry)
+void build_y(int node_x, int l_x, int r_x, int node_y, int l_y, int r_y)
 {
-	if (ly == ry)
+	if (l_y == r_y)
 	{
-		if (lx == rx) tree[nodex][nodey] = B[lx][ry];
-		else tree[nodex][nodey] = tree[2*nodex][nodey]|tree[2*nodex+1][nodey];
+		if (l_x == r_x) tree[node_x][node_y] = bs[l_x][l_y];
+		else tree[node_x][node_y] = tree[2*node_x][node_y]|tree[2*node_x+1][node_y];
 		return;
 	}
 
-	int my = (ly+ry)>>1;
+	int mid = (l_y+r_y)>>1;
 
-	build_y(nodex, lx, rx, 2*nodey, ly, my); build_y(nodex, lx, rx, 2*nodey+1, my+1, ry);
+	build_y(node_x, l_x, r_x, 2*node_y, l_y, mid);
+	build_y(node_x, l_x, r_x, 2*node_y+1, mid+1, r_y);
 
-	tree[nodex][nodey] = tree[nodex][2*nodey]|tree[nodex][2*nodey+1];
+	tree[node_x][node_y] = tree[node_x][2*node_y]|tree[node_x][2*node_y+1];
 }
 
-void build_x(int nodex, int lx, int rx)
+void build_x(int node_x, int l_x, int r_x)
 {
-	int mx = (lx+rx)>>1;
+	int mid = (l_x+r_x)>>1;
 
-	if (lx != rx)
+	if (l_x != r_x)
 	{
-		build_x(2*nodex, lx, mx); build_x(2*nodex+1, mx+1, rx);
+		build_x(2*node_x, l_x, mid);
+		build_x(2*node_x+1, mid+1, r_x);
 	}
 
-	build_y(nodex, lx, rx, 1, 1, m);
+	build_y(node_x, l_x, r_x, 1, 1, m);
 }
 
-bitset<maxk> query_y(int nodex, int nodey, int ly, int ry, int ay, int by)
+bitset<maxk> query_y(int node_x, int node_y, int l_y, int r_y, int a_y, int b_y)
 {
-	if (ly > by || ry < ay) return 0;
-	if (ly >= ay && ry <= by) return tree[nodex][nodey];
+	if (l_y > b_y || r_y < a_y) return 0;
+	if (l_y >= a_y && r_y <= b_y) return tree[node_x][node_y];
 
-	int my = (ly+ry)>>1;
+	int mid = (l_y+r_y)>>1;
 
-	return (query_y(nodex, 2*nodey, ly, my, ay, by)|query_y(nodex, 2*nodey+1, my+1, ry, ay, by));
+	return query_y(node_x, 2*node_y, l_y, mid, a_y, b_y)|query_y(node_x, 2*node_y+1, mid+1, r_y, a_y, b_y);
 }
 
-bitset<maxk> query_x(int nodex, int lx, int rx, int ax, int bx, int ay, int by)
+bitset<maxk> query_x(int node_x, int l_x, int r_x, int a_x, int b_x, int a_y, int b_y)
 {
-	if (lx > bx || rx < ax) return 0;
-	if (lx >= ax && rx <= bx) return query_y(nodex, 1, 1, m, ay, by);
+	if (l_x > b_x || r_x < a_x) return 0;
+	if (l_x >= a_x && r_x <= b_x) return query_y(node_x, 1, 1, m, a_y, b_y);
 
-	int mx = (lx+rx)>>1;
+	int mid = (l_x+r_x)>>1;
 
-	return (query_x(2*nodex, lx, mx, ax, bx, ay, by)|query_x(2*nodex+1, mx+1, rx, ax, bx, ay, by));
+	return query_x(2*node_x, l_x, mid, a_x, b_x, a_y, b_y)|query_x(2*node_x+1, mid+1, r_x, a_x, b_x, a_y, b_y);
 }
 
-void bfs(int x, int y)
+void bfs(int x, int y, int t)
 {
 	memset(mark, 0, sizeof mark);
 
-	int tt = tipo[x][y];
+	queue<pii> fila;
 
-	queue<pair<int, int> > fila;
+	bs[x][y][t] = 1;
 	fila.push({x, y}), mark[x][y] = 1;
-	B[x][y][tt] = 1;
 
 	while (!fila.empty())
 	{
@@ -85,11 +88,9 @@ void bfs(int x, int y)
 		{
 			int a = x+linha[i], b = y+coluna[i];
 
-			if (a < 1 || a > n || b < 1 || b > m) continue;
+			if (a < 1 || a > n || b < 1 || b > m || mark[a][b] || h[a][b] < h[x][y]) continue;
 
-			if (mark[a][b] || num[a][b] < num[x][y]) continue;
-
-			B[a][b][tt] = 1;
+			bs[a][b][t] = 1;
 			fila.push({a, b}), mark[a][b] = 1;
 		}
 	}
@@ -97,33 +98,31 @@ void bfs(int x, int y)
 
 int main(void)
 {
-	int k;
 	scanf("%d %d %d", &n, &m, &k);
 
 	for (int i = 1; i <= n; i++)
 		for (int j = 1; j <= m; j++)
-			scanf("%d", &num[i][j]);
+			scanf("%d", &h[i][j]);
 
 	for (int i = 1; i <= k; i++)
 	{
-		int a, b;
-		scanf("%d %d", &a, &b);
+		int x, y;
+		scanf("%d %d", &x, &y);
 
-		tipo[a][b] = i-1;
-
-		bfs(a, b);
+		bfs(x, y, i-1);
 	}
 
 	build_x(1, 1, n);
 
 	int q;
-	cin >> q;
+	scanf("%d", &q);
 
 	for (int i = 1; i <= q; i++)
 	{
-		int x1, y1, x2, y2;
-		scanf("%d %d %d %d", &x1, &y1, &x2, &y2);
+		int a_x, b_x, a_y, b_y;
 
-		printf("%d\n", (int)query_x(1, 1, n, x1, x2, y1, y2).count());
+		scanf("%d %d %d %d", &a_x, &a_y, &b_x, &b_y);
+
+		printf("%d\n", (int)query_x(1, 1, n, a_x, b_x, a_y, b_y).count());
 	}
 }
