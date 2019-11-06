@@ -3,31 +3,24 @@
 
 #include <bits/stdc++.h>
 
+#define ff first
+#define ss second
+
 using namespace std;
-
-const int maxn = 3e3+10;
-
-const long long inf = 1e18+10;
 
 typedef long long ll;
 
-struct pt
+const int maxn = 3e3+10;
+const ll inf = 1e18+10;
+
+struct Pt
 {
-	int x, y, v;
-};
+	int x, y, val;
+} pt[maxn];
 
-pt P[maxn], aux[maxn];
-
-pt pivot;
-
-bool comp(pt a, pt b)
+bool comp(Pt a, Pt b)
 {
 	return a.x < b.x;
-}
-
-bool igual(pt a, pt b)
-{
-	return (a.x == b.x && a.y == b.y);
 }
 
 int main(void)
@@ -36,45 +29,33 @@ int main(void)
 	scanf("%d", &n);
 
 	for (int i = 1; i <= n; i++)
+		scanf("%d %d %d", &pt[i].x, &pt[i].y, &pt[i].val);
+
+	ll ans = -inf;
+
+	sort(pt+1, pt+n+1, comp);
+
+	for (int p = 1; p <= n; p++)
 	{
-		scanf("%d %d %d", &P[i].x, &P[i].y, &P[i].v);
-		aux[i] = {P[i].x, P[i].y, P[i].v};
-	}
+		unordered_map<double, ll> mp;
 
-	sort(P+1, P+n+1, comp);
-	sort(aux+1, aux+n+1, comp);
-
-	ll ans_global = -inf;
-	for (int i = 1; i <= n; i++)
-	{
-		pivot = P[i];
-
-		unordered_map<double, ll> M;
-
-		ll ans = -inf, add = 0LL;
-		for (int j = 1; j <= n; j++)
+		for (int i = 1; i <= n; i++)
 		{
-			if (aux[j].x < pivot.x) continue;
+			if (pt[i].x < pt[p].x || i == p) continue;
 
-			if (igual(aux[j], pivot) == 0)
-			{
-				add += (ll)aux[j].v;
+			double a1 = pt[p].x-pt[i].x;
+			double a2 = pt[p].y-pt[i].y;
+
+			if (a2 == 0.00) mp[inf] += 1ll*pt[i].val;
+			else mp[a1/a2] += 1ll*pt[i].val;
+
+			if (i < n && pt[i+1].x == pt[i].x && pt[i+1].y == pt[i].y)
 				continue;
-			}
 
-			double m1 = aux[j].y-pivot.y;
-			double m2 = aux[j].x-pivot.x;
-			double temp = (m2 ? m1/m2 : inf);
-
-			M[temp] += (ll)aux[j].v;
-			while (j < n && igual(aux[j], aux[j+1]))
-				M[temp] += (ll)aux[++j].v;
-
-			ans = max(ans, add+M[temp]);
+			if (a2 == 0.00) ans = max(ans, mp[inf] + 1ll*pt[p].val);
+			else ans = max(ans, mp[a1/a2] + 1ll*pt[p].val);
 		}
-
-		ans_global = max(ans, ans_global);
 	}
 
-	printf("%lld\n", ans_global);
+	printf("%lld\n", ans);
 }
