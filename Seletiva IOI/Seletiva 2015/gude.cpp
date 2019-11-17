@@ -5,33 +5,24 @@
 
 using namespace std;
 
-const int MAXN = 300010;
+const int maxn = 3e5+10;
 
-int num[MAXN];
-long long dp[MAXN];
+int a[maxn];
 
 int main(void)
 {
-    int n, s;
-    scanf("%d %d", &n, &s);
+	int n, S;
+	scanf("%d %d", &n, &S);
 
-    for (int i = 1; i <= n; i++)
-        scanf("%d", &num[i]);
+	for (int i = 1; i <= n; i++)
+		scanf("%d", &a[i]);
 
-    sort(num+1, num+n+1);
+	sort(a+1, a+n+1);
 
-    dp[1] = 1LL*s;
-    int menor = num[1];
-    for (int i = 2; i <= n; i++)
-    {
-        if (dp[i-1]+s <= dp[i-1]-(num[i-1]-menor)+num[i]-menor)
-        {
-            menor = num[i];
-            dp[i] = dp[i-1]+s;
-        }
-        else
-            dp[i] = dp[i-1]-(num[i-1]-menor)+num[i]-menor;
-    }
-    
-    printf("%lld\n", dp[n]);
+	long long ans = S;
+
+	for (int i = 2; i <= n; i++)
+		ans = min(ans+1ll*S, ans-1ll*a[i-1]+1ll*a[i]);
+
+	printf("%lld\n", ans);
 }
