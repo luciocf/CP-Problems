@@ -13,7 +13,7 @@ const int mod = 1e9+7;
 int n;
 int ans;
 
-int pai[maxn], depth[maxn], edge[maxn];
+int pai[maxn], depth[maxn];
 
 void init(void)
 {
@@ -21,26 +21,26 @@ void init(void)
 		pai[i] = i;
 }
 
-pii Find(int x)
+int Find(int x)
 {
-	if (pai[x] == x) return {x, 0};
+	if (pai[x] == x) return x;
 
-	pii P = Find(pai[x]);
+	int P = Find(pai[x]);
 
-	depth[x] = (P.second + (edge[x]+mod)%mod)%mod;
-	pai[x] = P.first, edge[x] = depth[x];
-
-	return {pai[x], depth[x]};
+	depth[x] = (depth[x] + depth[pai[x]])%mod;
+	return pai[x] = P;
 }
 
 void Join(int x, int y, int w)
 {
-	pii p1 = Find(x), p2 = Find(y);
-	x = p1.first, y = p2.first;
+	int ant = y;
+	x = Find(x), y = Find(y);
 
-	pai[y] = x, edge[y] = ((w+mod)%mod + p2.second)%mod; 
+	int D = depth[ant];
 
-	ans = (ans+((edge[y]+mod)%mod))%mod;
+	pai[y] = x, depth[y] = ((w+mod)%mod + D)%mod;
+
+	ans = (ans+depth[y])%mod;
 }
 
 int main(void)
