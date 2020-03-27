@@ -1,3 +1,6 @@
+// USACO 2015/2016 - Fort Moo
+// Lúcio Cardoso
+
 #include <bits/stdc++.h>
 
 using namespace std;
