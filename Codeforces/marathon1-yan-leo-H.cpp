@@ -2,57 +2,66 @@
 // Lúcio Cardoso
 
 #include <bits/stdc++.h>
-
+ 
 using namespace std;
-
-const int maxn = 1e6+10;
-
+ 
+typedef long long ll;
+ 
+const int maxn = 2e4+10;
+const int maxk = 110;
+const int inf = 1e7+10;
+ 
+struct S
+{
+	int v;
+	ll tot;
+};
+ 
 int a[maxn];
-
-int ans[maxn];
-
+ll dp[maxn][maxk];
+ 
+stack<S> stk_mx[maxk], stk_mn[maxk];
+multiset<ll> st_mx[maxk], st_mn[maxk];
+ 
 int main(void)
 {
-	int n, q;
-	scanf("%d %d", &n, &q);
-
+	int n, k;
+	scanf("%d %d", &n, &k);
+ 
+	for (int i = 1; i <= n; i++)
+		scanf("%d", &a[i]);
+ 
 	for (int i = 1; i <= n; i++)
 	{
-		scanf("%d", &a[i]);
-
-		ans[a[i]]++;
-	}
-
-	for (int i = 2; i <= n; i++)
-		if (a[i] == a[i-1])
-			ans[a[i]]--;
-
-	while (q--)
-	{
-		int op;
-		scanf("%d", &op);
-
-		if (op == 1)
+		for (int j = 1; j <= min(i, k); j++)
 		{
-			int p, c;
-			scanf("%d %d", &p, &c);
-
-			if (a[p] == c) continue;
-
-			if (a[p-1] == a[p] && a[p+1] == a[p]) ans[a[p]]++;
-			else if (a[p-1] != a[p] && a[p+1] != a[p]) ans[a[p]]--;
-
-			a[p] = c;
-
-			if (a[p-1] == a[p] && a[p+1] == a[p]) ans[a[p]]--;
-			else if (a[p-1] != a[p] && a[p+1] != a[p]) ans[a[p]]++;
-		}
-		else
-		{
-			int c;
-			scanf("%d", &c);
-
-			printf("%d\n", ans[c]);
+			while (stk_mx[j].size() && a[i] > stk_mx[j].top().v)
+			{
+				st_mx[j].erase(st_mx[j].find(-stk_mx[j].top().tot));
+ 
+				stk_mx[j].pop();
+			}
+ 
+			while (stk_mn[j].size() && a[i] < stk_mn[j].top().v)
+			{
+				st_mn[j].erase(st_mn[j].find(-stk_mn[j].top().tot));
+ 
+				stk_mn[j].pop();
+			}
+ 
+			stk_mx[j].push({a[i], 1ll*a[i] + dp[i-1][j-1]});
+			st_mx[j].insert(-1ll*(1ll*a[i] + dp[i-1][j-1]));
+ 
+			stk_mn[j].push({a[i], -1ll*a[i] + dp[i-1][j-1]});
+			st_mn[j].insert(-1ll*(-1ll*a[i] + dp[i-1][j-1]));
+ 
+			dp[i][j] = dp[i-1][j];
+ 
+			dp[i][j] = max(dp[i][j], -1ll*a[i] - *st_mx[j].begin());
+ 
+			dp[i][j] = max(dp[i][j], 1ll*a[i] - *st_mn[j].begin());
 		}
 	}
+ 
+	printf("%lld\n", dp[n][k]);
 }
