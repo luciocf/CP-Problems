@@ -3,7 +3,7 @@
 
 // Solution is the same as the editorial: https://csacademy.com/contest/ioi-2016-training-round-4/task/k-consecutive/statement/
 
-// For a little bit more of detail, the transitions for each case while calculating dp[i][j] are:
+// For a little bit more detail, the transitions for each case while calculating dp[i][j] are:
 
 //	* dp[i][j] += (j+1)*dp[i-1][j+1] (this means we added 'i' in the middle of two consecutive numbers, thus decreasing the amount of consec. numbers by 1)
 
