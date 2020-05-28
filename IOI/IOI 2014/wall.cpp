@@ -1,6 +1,11 @@
 // IOI 2014 - Wall
 // Lúcio Cardoso
 
+// Solution is the same as: https://github.com/luciocf/Problems/blob/master/Codeforces/444C.cpp
+
+// Basically, only execute lazy updates in nodes of the segment tree that are inside the interval AND such that every leaf
+// in this interval has the same height
+
 #include <bits/stdc++.h>
 #include "wall.h"
 
