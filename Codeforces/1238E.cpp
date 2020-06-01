@@ -1,7 +1,7 @@
 // Codeforces 1238E - Keyboard Purchase
 // Lúcio Cardoso
 
-// Solution in O(m*2^m), explained here: https://codeforces.com/blog/entry/70450?#comment-549236
+// Solution in O(m*2^m), explained here -> https://codeforces.com/blog/entry/70450?#comment-549236
 
 #include <bits/stdc++.h>
 
