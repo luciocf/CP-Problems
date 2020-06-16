@@ -1,8 +1,7 @@
 // BOI 2013 - Brunhilda’s Birthday
 // Lúcio Cardoso
 
-// Solution is the same as in editorial, in the section "DP over inverse function", using the method to
-// calculate queries in O(1): https://github.com/mostafa-saad/MyCompetitiveProgramming/blob/master/Olympiad/Baltic/official/boi2013_solutions/brunhilda-sol.pdf
+// Solution is the same as the model solution in editorial : https://github.com/mostafasaad/MyCompetitiveProgramming/blob/master/Olympiad/Baltic/official/boi2013_solutions/brunhilda-sol.pdf
 
 #include <bits/stdc++.h>
 
