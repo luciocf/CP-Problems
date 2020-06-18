@@ -2,6 +2,7 @@
 // Lúcio Cardoso
 
 // Solution is the same as in: https://github.com/mostafa-saad/MyCompetitiveProgramming/blob/master/Olympiad/COCI/official/2017/contest4_solutions/solutions.pdf
+
 #include <bits/stdc++.h>
  
 using namespace std;
