@@ -13,7 +13,7 @@
 //	- Let l = n-x (the last position out of the suffix mentioned above). Suppose we're inserting the cow in position i.
 //	- When inserting the cow in position i, let the amount of cows in the current active gang be y.
 //	- The gang of cow i can be the smallest gang iff 2*(largest_gang_frequency) <= l-i + y
-//  - Otherwise, the gang of cow i has to be the gang of largest frequency.
+//	- Otherwise, the gang of cow i has to be the gang of largest frequency.
 
 // We can use a set to find the gang of largest frequency at any point in the algorithm. Overall complexity
 // is O(n^2 * log n)
