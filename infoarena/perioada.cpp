@@ -9,7 +9,7 @@
 // Now, the problem becomes checking if a string s is a period of a larger string S. Let's use hashing.
 // Let hash(s) = X. If s is a period of S, then S = x + 31^|s|*x + 31^(2*|s|)*x + ... + 31^(|S|/|s| - 1)*x
 // (31 is the prime used for hashing). Thus, if we precalculate the value of geometric series 31^0 + 31^k + 31^(2*k) + ...
-// for every k, we can this subproblem in O(1). It's easy to calculate these geometric series in O(n log n).
+// for every k, we can solve this subproblem in O(1). It's easy to calculate these geometric series in O(n log n).
 
 // Final complexity is O(m*sqrt(n))
 
