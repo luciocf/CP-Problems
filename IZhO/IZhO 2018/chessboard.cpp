@@ -65,7 +65,7 @@ int main(void)
 		if (n/d != d) D.push_back(n/d);
 	}
  
-	ll ans = inf;
+	ll ans = inf; 
  
 	for (auto d: D)
 	{
