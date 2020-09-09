@@ -1,7 +1,7 @@
 // Codeforces 1407E - Egor in the Republic of Dagestan
 // Lúcio Cardoso
 
-// Solution is the same as in editorial
+// Solution is the same as in: https://codeforces.com/blog/entry/82417?#comment-693262
 
 #include <bits/stdc++.h>
 
