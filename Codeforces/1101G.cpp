@@ -3,7 +3,7 @@
 
 /* Solution:
 
-The condition that no set of segments has xor = 0 is true iff the xor of any two (distinct) sets of segments are distinct.
+The condition that no set of segments has xor = 0 is true iff the xor sums of any two (distinct) sets of segments are distinct.
 
 Let p[i] be the xor-prefix of i and let the set of chosen segments be [l_1, r_1], [l_2, r_2], ..., [l_k, r_k]. The fact stated above implies that,
 for any two (distinct) subsets A and B of {r_1, r_2, ..., r_k}, the xor of p[i] for every i in A is distinct from the xor of p[i] for every i in B.
