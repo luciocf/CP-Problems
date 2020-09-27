@@ -18,6 +18,7 @@ of every node, and increase the pointer of u while the value in sub[u][ptr[u]] i
 NOTE: Don't use path compression, since we need the DSU tree.
 
 Complexity: O(n log n)
+
 */
 
 #include <bits/stdc++.h>
