@@ -1,7 +1,7 @@
 // Codeforces 546E - Nastya Hasn't Written a Legend
 // Lúcio Cardoso
 
-// Solution is the same as in editorial
+// Solution is the same as in editorial.
 
 #include <bits/stdc++.h>
 
