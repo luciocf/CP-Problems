@@ -1,3 +1,6 @@
+// POI 2016 - Christmas
+// Lúcio Cardoso
+
 #include <bits/stdc++.h>
 
 using namespace std;
