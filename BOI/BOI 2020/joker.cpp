@@ -43,7 +43,8 @@ struct DSU
  
 	bool Join(int x, int y)
 	{
-		int cx = 0, cy = 0;
+		int cx = 0;
+		int cy = 0;
 		x = Find(x, cx), y = Find(y, cy);
  
 		if (peso[x] < peso[y])
