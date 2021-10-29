@@ -1,3 +1,3 @@
 # Problems
 
-My solutions to Competitive Programming problems.
+My solutions to problems from Informatics Olympiads and Competitive Programming websites.
