@@ -1,4 +1,4 @@
-// Codeforces 1348C - Hilbert's Hotel
+// Codeforces 1348C - Phoenix and Distribution
 // Lucio Figueiredo
 
 #include <iostream>
