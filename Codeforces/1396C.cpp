@@ -1,3 +1,6 @@
+// Codeforces 1396C - Pinkie Pie Eats Patty-cakes
+// Lucio Figueiredo
+
 #include <iostream>
 #include <vector>
 #include <algorithm>
