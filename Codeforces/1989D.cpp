@@ -1,3 +1,6 @@
+// Codeforces 1989D - Smithing Skill
+// Lucio Figueiredo
+
 #include <iostream>
 #include <vector>
 #include <algorithm>
