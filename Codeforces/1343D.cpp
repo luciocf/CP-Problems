@@ -1,3 +1,6 @@
+// Codeforces 1343D - Constant Palindrome Sum
+// Lucio Figueiredo
+
 #include <iostream>
 #include <vector>
 #include <algorithm>
